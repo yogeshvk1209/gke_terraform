@@ -12,7 +12,11 @@ variable "cluster_name" {
 variable "region" {
   description = "The region to host the cluster in"
   type        = string
-  default     = "us-central1"
+}
+
+variable "machine_type" {
+  description = "The machine type for GKE nodes"
+  type        = string
 }
 
 variable "zones" {
