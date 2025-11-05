@@ -1,6 +1,6 @@
 # Copy this file to terraform.tfvars and fill in your values
 
-project_id   = "your-gcp-project-id"
+project_id   = ""
 cluster_name = "my-gke-cluster"
 region       = "us-central1"
 zones        = ["us-central1-a", "us-central1-b", "us-central1-c"]
