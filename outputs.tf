@@ -29,3 +29,15 @@ output "ca_certificate" {
   description = "Cluster ca certificate (base64 encoded)"
   sensitive   = true
 }
+
+output "kubeconfig" {
+  value = templatefile("${path.module}/kubeconfig-template.yaml", {
+    cluster_name    = module.gke.name
+    endpoint        = module.gke.endpoint
+    ca_certificate  = module.gke.ca_certificate
+    project_id      = var.project_id
+    region          = var.region
+  })
+  description = "Kubeconfig for the GKE cluster"
+  sensitive   = true
+}
