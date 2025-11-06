@@ -30,3 +30,24 @@ variable "compute_engine_service_account" {
   type        = string
   default     = null
 }
+
+variable "enable_private_cluster" {
+  description = "Enable private cluster for the GKE cluster"
+  type        = bool
+  default     = false
+}
+
+variable "master_ipv4_cidr_block" {
+  description = "The IP range in CIDR notation to use for the GKE master."
+  type        = string
+  default     = "172.16.0.0/28"
+}
+
+variable "master_authorized_networks" {
+  description = "List of master authorized networks. If master authorized networks is defined, the master endpoint is not authorized for any other networks."
+  type = list(object({
+    cidr_block   = string
+    display_name = string
+  }))
+  default = []
+}

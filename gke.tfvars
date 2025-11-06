@@ -8,3 +8,5 @@ machine_type = "n1-standard-1"
 
 # Optional: specify a custom service account
 # compute_engine_service_account = "your-service-account@your-project.iam.gserviceaccount.com"
+# enable_private_cluster = true
+

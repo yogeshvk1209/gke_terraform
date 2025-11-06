@@ -11,31 +11,6 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.region
-  credentials = file("~/Downloads/safile.json")
-}
-
-# VPC Network
-resource "google_compute_network" "vpc" {
-  name                    = "${var.cluster_name}-vpc"
-  auto_create_subnetworks = false
-}
-
-# Subnet
-resource "google_compute_subnetwork" "subnet" {
-  name          = "${var.cluster_name}-subnet"
-  ip_cidr_range = "10.0.0.0/16"
-  region        = var.region
-  network       = google_compute_network.vpc.name
-
-  secondary_ip_range {
-    range_name    = "services-range"
-    ip_cidr_range = "192.168.1.0/24"
-  }
-
-  secondary_ip_range {
-    range_name    = "pod-ranges"
-    ip_cidr_range = "192.168.64.0/22"
-  }
 }
 
 # GKE Cluster using terraform-google-modules
@@ -53,6 +28,11 @@ module "gke" {
   ip_range_pods     = "pod-ranges"
   ip_range_services = "services-range"
 
+  enable_private_nodes       = var.enable_private_cluster
+  enable_private_endpoint    = var.enable_private_cluster
+  master_ipv4_cidr_block     = var.master_ipv4_cidr_block
+  master_authorized_networks = var.master_authorized_networks
+
   http_load_balancing        = false
   network_policy             = false
   horizontal_pod_autoscaling = true
@@ -61,7 +41,7 @@ module "gke" {
 
   node_pools = [
     {
-      name            = "default-node-pool"
+      name            = "${var.cluster_name}-default-node-pool"
       machine_type    = var.machine_type
       node_locations  = join(",", var.zones)
       min_count       = 1
