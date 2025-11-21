@@ -16,6 +16,8 @@ provider "google" {
 # GKE Cluster using terraform-google-modules
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
+  # TODO: Test private couster using modules directly
+  #source = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   version = "~> 30.0"
 
   project_id   = var.project_id
@@ -28,9 +30,9 @@ module "gke" {
   ip_range_pods     = "pod-ranges"
   ip_range_services = "services-range"
 
-  enable_private_nodes       = var.enable_private_cluster
-  enable_private_endpoint    = var.enable_private_cluster
-  master_ipv4_cidr_block     = var.master_ipv4_cidr_block
+  #enable_private_nodes       = var.enable_private_cluster
+  #enable_private_endpoint    = var.enable_private_cluster
+  #master_ipv4_cidr_block     = var.master_ipv4_cidr_block
   master_authorized_networks = var.master_authorized_networks
 
   http_load_balancing        = false
